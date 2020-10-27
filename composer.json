@@ -10,7 +10,12 @@
     "require": {
         "ec-cube2/plugin-installer": "^1.0"
     },
+    "require-dev": {
+        "ec-cube2/cli": "^1.3.1"
+    },
     "autoload": {
-        "classmap": ["ComposerFix.php"]
+        "files": ["src/bootstrap.php"],
+        "classmap": ["ComposerFix.php"],
+        "psr-4": {"ComposerFix\\": "src/ComposerFix/"}
     }
 }

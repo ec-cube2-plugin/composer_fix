@@ -1,0 +1,9 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    ComposerFix\Command\:
+        resource: '../src/ComposerFix/Command/*'
+        tags:
+            - { name: 'console.command' }
