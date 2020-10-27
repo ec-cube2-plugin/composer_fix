@@ -15,6 +15,7 @@ use Eccube2\Init;
 use Eccube2\Util\Parameter;
 use Eccube2\Util\Plugin;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
@@ -76,11 +77,25 @@ class ComposerFixCommand extends Command
         $io->title('パラメーター設定');
         $this->setParameters($io, $this->parameters);
 
+        $io->title('キャッシュクリア');
+        $cacheClearCommand = $this->getApplication()->find('cache:clear');
+        $cacheClearInput = new ArrayInput(array());
+        $cacheClearCommand->run($cacheClearInput, $output);
+
         $io->title('プラグイン設定');
         $io->section('プラグインインストール');
-        $this->installPlugin($io, 'ComposerFix');
+        $installCommand = $this->getApplication()->find('plugin:install');
+        $installInput = new ArrayInput(array(
+            'code' => 'ComposerFix',
+        ));
+        $installCommand->run($installInput, $output);
+
         $io->section('プラグイン有効化');
-        $this->enablePlugin($io, 'ComposerFix');
+        $enableCommand = $this->getApplication()->find('plugin:enable');
+        $enableInput = new ArrayInput(array(
+            'code' => 'ComposerFix',
+        ));
+        $enableCommand->run($enableInput, $output);
     }
 
     private function setParameters(SymfonyStyle $io, $parameters)
@@ -88,33 +103,7 @@ class ComposerFixCommand extends Command
         foreach ($parameters as $key => $value) {
             $this->parameter->set($key, $value, false);
         }
-        $this->parameter->createCache();
 
         $io->success('パラメーターを設定しました。');
-    }
-
-    private function installPlugin(SymfonyStyle $io, $code)
-    {
-        if (!$this->plugin->isInstalled($code)) {
-            $errors = $this->plugin->install($code);
-        } else {
-            $errors = $this->plugin->update($code);
-        }
-
-        if ($errors) {
-            $io->error(implode("\n", $errors));
-        } else {
-            $io->success('インストールしました');
-        }
-    }
-
-    private function enablePlugin(SymfonyStyle $io, $code)
-    {
-        $errors = $this->plugin->enable($code);
-        if ($errors) {
-            $io->error(implode("\n", $errors));
-        } else {
-            $io->success('有効にしました');
-        }
     }
 }
