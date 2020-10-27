@@ -1,0 +1,16 @@
+{
+    "name": "ec-cube2-plugin/composer_fix",
+    "type": "eccube2-plugin",
+    "license": "LGPL-3.0",
+    "authors": [
+        {
+            "name": "Tsuyoshi Tsurushima"
+        }
+    ],
+    "require": {
+        "ec-cube2/plugin-installer": "^1.0"
+    },
+    "autoload": {
+        "classmap": ["ComposerFix.php"]
+    }
+}
