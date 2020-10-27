@@ -7,3 +7,7 @@ services:
         resource: '../src/ComposerFix/Command/*'
         tags:
             - { name: 'console.command' }
+
+    ComposerFix\EventSubscriber\InstallSubscriber:
+        tags:
+            - { name: 'kernel.event_subscriber' }

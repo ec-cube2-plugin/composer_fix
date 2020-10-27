@@ -1,28 +1,14 @@
 <?php
 
-/*
- * This file is part of EC-CUBE2 CLI.
- *
- * (C) Tsuyoshi Tsurushima.
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
+namespace ComposerFix\EventSubscriber;
 
-namespace ComposerFix\Command;
-
-use Eccube2\Init;
 use Eccube2\Util\ParameterUtil;
-use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\ArrayInput;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Style\SymfonyStyle;
+use Eccube2\Util\PluginUtil;
+use Symfony\Component\EventDispatcher\Event;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-class ComposerFixCommand extends Command
+class InstallSubscriber implements EventSubscriberInterface
 {
-    protected static $defaultName = 'composer-fix';
-
     private $parameters = array(
         'ZIP_DOWNLOAD_URL' => '"https://www.post.japanpost.jp/zipcode/dl/kogaki/zip/ken_all.zip"',
         'MODULE_DIR' => '"module/"' ,
@@ -48,38 +34,26 @@ class ComposerFixCommand extends Command
         'DOWN_SAVE_REALDIR'=> 'ROOT_REALDIR . "var/download/"',
     );
 
-    protected function configure()
+    public static function getSubscribedEvents()
     {
-        $this
-            ->setDescription('Composerインストール用の設定を行います。')
-        ;
+        return [
+            'install.insert_data' => 'onInsertData',
+            'install.after' => 'onAfter',
+        ];
     }
 
-    protected function initialize(InputInterface $input, OutputInterface $output)
-    {
-        Init::init();
-    }
-
-    protected function execute(InputInterface $input, OutputInterface $output)
-    {
-        $io = new SymfonyStyle($input, $output);
-
-        $io->title('パラメーター設定');
-        $this->setParameters($io, $this->parameters);
-
-        $io->title('キャッシュクリア');
-        $cacheClearCommand = $this->getApplication()->find('cache:clear');
-        $cacheClearInput = new ArrayInput(array());
-        $cacheClearCommand->run($cacheClearInput, $output);
-    }
-
-    private function setParameters(SymfonyStyle $io, $parameters)
+    public function onInsertData(Event $event)
     {
         $parameterUtil = new ParameterUtil();
-        foreach ($parameters as $key => $value) {
+        foreach ($this->parameters as $key => $value) {
             $parameterUtil->set($key, $value, false);
         }
+    }
 
-        $io->success('パラメーターを設定しました。');
+    public function onAfter(Event $event)
+    {
+        $pluginUtil = new PluginUtil();
+        $pluginUtil->install('ComposerFix');
+        $pluginUtil->enable('ComposerFix');
     }
 }
