@@ -36,23 +36,24 @@ class ComposerFix extends SC_Plugin_Base
     {
         parent::register($objHelperPlugin, $priority);
 
-        $objHelperPlugin->addAction('LC_Page_Admin_Basis_ZipInstall_action_before', array($this, 'LC_Page_Admin_Basis_ZipInstall_action_before'), $priority);
-        $objHelperPlugin->addAction('LC_Page_Admin_System_Bkup_action_before', array($this, 'LC_Page_Admin_System_Bkup_action_before'), $priority);
+        $objHelperPlugin->addAction('SC_FormParam_construct', array($this, 'SC_FormParam_construct'), $priority);
         $objHelperPlugin->addAction('LC_Page_Admin_System_System_action_before', array($this, 'LC_Page_Admin_System_System_action_before'), $priority);
         $objHelperPlugin->addAction('prefilterTransform', array($this, 'prefilterTransform'), $priority);
     }
 
-    public function LC_Page_Admin_Basis_ZipInstall_action_before(LC_Page_Admin_Basis_ZipInstall $objPage)
+    public function SC_FormParam_construct($class_name, SC_FormParam $objFormParam)
     {
-        if (defined('ZIP_TEMP_REALDIR')) {
-            $objPage->zip_csv_temp_realfile = ZIP_TEMP_REALDIR . 'ken_all.zip';
-        }
-    }
-
-    public function LC_Page_Admin_System_Bkup_action_before(LC_Page_Admin_System_Bkup $objPage)
-    {
-        if (defined('BACKUP_REALDIR')) {
-            $objPage->bkup_dir = BACKUP_REALDIR;
+        $arrBacktrace = debug_backtrace();
+        foreach ($arrBacktrace as $backtrace) {
+            if (is_object($backtrace['object']) && $backtrace['object'] instanceof LC_Page) {
+                $objPage = $backtrace['object'];
+                if ($objPage instanceof LC_Page_Admin_Basis_ZipInstall && defined('ZIP_TEMP_REALDIR')) {
+                    $objPage->zip_csv_temp_realfile = ZIP_TEMP_REALDIR . 'ken_all.zip';
+                } elseif ($objPage instanceof LC_Page_Admin_System_Bkup && defined('BACKUP_REALDIR')) {
+                    $objPage->bkup_dir = BACKUP_REALDIR;
+                }
+                break;
+            }
         }
     }
 
