@@ -1,5 +1,5 @@
 {
-    "name": "ec-cube2-plugin/composer_fix",
+    "name": "ec-cube2-plugin/fix-composer",
     "type": "eccube2-plugin",
     "license": "LGPL-3.0",
     "authors": [
@@ -16,7 +16,7 @@
     },
     "autoload": {
         "files": ["src/bootstrap.php"],
-        "classmap": ["ComposerFix.php"],
-        "psr-4": {"ComposerFix\\": "src/ComposerFix/"}
+        "classmap": ["FixComposer.php"],
+        "psr-4": {"FixComposer\\": "src/FixComposer/"}
     }
 }

@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace ComposerFix\Command;
+namespace FixComposer\Command;
 
 use Eccube2\Init;
 use Eccube2\Util\ParameterUtil;
@@ -19,9 +19,9 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-class ComposerFixCommand extends Command
+class FixComposerCommand extends Command
 {
-    protected static $defaultName = 'composer-fix';
+    protected static $defaultName = 'fix-composer';
 
     private $parameters = array(
         'ZIP_DOWNLOAD_URL' => '"https://www.post.japanpost.jp/zipcode/dl/kogaki/zip/ken_all.zip"',

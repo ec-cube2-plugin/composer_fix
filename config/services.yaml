@@ -3,11 +3,11 @@ services:
         autowire: true
         autoconfigure: true
 
-    ComposerFix\Command\:
-        resource: '../src/ComposerFix/Command/*'
+    FixComposer\Command\:
+        resource: '../src/FixComposer/Command/*'
         tags:
             - { name: 'console.command' }
 
-    ComposerFix\EventSubscriber\InstallSubscriber:
+    FixComposer\EventSubscriber\InstallSubscriber:
         tags:
             - { name: 'kernel.event_subscriber' }

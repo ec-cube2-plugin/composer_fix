@@ -23,4 +23,4 @@ EC-CUBE2 CLI
 
 以下のコマンドを追加します。
 
-`composer-fix`
+`fix-composer`

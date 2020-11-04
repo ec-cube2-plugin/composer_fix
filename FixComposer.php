@@ -7,7 +7,7 @@ if (file_exists(__DIR__ . '/vendor/autoload.php')) {
 /**
  * プラグインのメインクラス
  */
-class ComposerFix extends SC_Plugin_Base
+class FixComposer extends SC_Plugin_Base
 {
     public function install($arrPlugin, SC_Plugin_Installer $objPluginInstaller = null)
     {

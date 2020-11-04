@@ -1,6 +1,6 @@
 <?php
 
-namespace ComposerFix\EventSubscriber;
+namespace FixComposer\EventSubscriber;
 
 use Eccube2\Util\ParameterUtil;
 use Eccube2\Util\PluginUtil;
@@ -53,7 +53,7 @@ class InstallSubscriber implements EventSubscriberInterface
     public function onAfter(Event $event)
     {
         $pluginUtil = new PluginUtil();
-        $pluginUtil->install('ComposerFix');
-        $pluginUtil->enable('ComposerFix');
+        $pluginUtil->install('FixComposer');
+        $pluginUtil->enable('FixComposer');
     }
 }

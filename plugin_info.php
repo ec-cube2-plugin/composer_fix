@@ -6,16 +6,16 @@
 class plugin_info
 {
     /** プラグインコード(必須)：プラグインを識別する為キーで、他のプラグインと重複しない一意な値である必要がありま. */
-    static $PLUGIN_CODE = "ComposerFix";
+    static $PLUGIN_CODE = "FixComposer";
 
     /** プラグイン名(必須)：EC-CUBE上で表示されるプラグイン名. */
     static $PLUGIN_NAME = "Composerインストール用修正プラグイン";
 
     /** クラス名(必須)：プラグインのクラス（拡張子は含まない） */
-    static $CLASS_NAME = "ComposerFix";
+    static $CLASS_NAME = "FixComposer";
 
     /** プラグインバージョン(必須)：プラグインのバージョン. */
-    static $PLUGIN_VERSION = "1.1.1";
+    static $PLUGIN_VERSION = "2.0.0";
 
     /** 対応バージョン(必須)：対応するEC-CUBEバージョン. */
     static $COMPLIANT_VERSION = "2.13.5";
